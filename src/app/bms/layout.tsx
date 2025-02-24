@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "../ui/bms/sidebar/sidebar";
 
-const layout = ({ children }) => {
+const layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div>
             <Sidebar />

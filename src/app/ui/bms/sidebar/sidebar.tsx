@@ -23,7 +23,7 @@ const Header = () => {
 
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
-        const tenantName = localStorage.getItem("tenantName");
+        const tenantName = localStorage.getItem("tenantName") ?? "";
         console.log(tenantName);
         if (storedToken) {
             const decoded = decodeToken(storedToken);

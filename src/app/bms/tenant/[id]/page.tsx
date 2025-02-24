@@ -19,7 +19,9 @@ const SkeletonLoader = () => (
 
 const EditTenant = () => {
     const router = useRouter();
-    const { id } = useParams();
+    const params = useParams();
+    const id = params?.id as string | undefined;
+
     const [tenantName, setTenantName] = useState("");
     const [originalTenantName, setOriginalTenantName] = useState("");
     const [loading, setLoading] = useState(true);

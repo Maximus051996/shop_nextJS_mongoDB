@@ -30,10 +30,16 @@ const User = () => {
             const response = await axiosInstance.get(
                 "/user?queryType=usersWithTenants"
             );
-            const activeUsers = response.data.filter((user) => user.isActive);
+            const activeUsers = response.data.filter(
+                (user: { isActive: unknown }) => user.isActive
+            );
             setUsers(activeUsers);
         } catch (err) {
-            setError("Error loading users. Please try again.");
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unknown error occurred.");
+            }
         } finally {
             setLoading(false);
         }
@@ -63,8 +69,11 @@ const User = () => {
             toast.success("Tenant unassigned successfully!");
             fetchUsers();
         } catch (err) {
-            toast.error(err.message || "Error unassigned user");
-            console.error("Error unassigned user", err.message);
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unknown error occurred.");
+            }
         }
     };
 

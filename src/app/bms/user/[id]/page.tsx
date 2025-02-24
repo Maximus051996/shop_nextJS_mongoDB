@@ -7,18 +7,23 @@ import toast, { Toaster } from "react-hot-toast";
 
 const AssignAdmin = () => {
     const router = useRouter();
-    const { id } = useParams(); // Get userId from dynamic route
+    const params = useParams();
+    const id = params?.id as string | undefined;
 
     const [tenant, setTenant] = useState(""); // Selected Tenant
     const [loading, setLoading] = useState(false);
-    const [tenants, setTenants] = useState([]); // Active Tenants List
+    const [tenants, setTenants] = useState(
+        [] as { _id: string; tenantName: string }[]
+    );
 
     // Fetch Active Tenants
     useEffect(() => {
         const fetchTenants = async () => {
             try {
                 const response = await axiosInstance.get("/tenant");
-                const activeTenants = response.data.filter((t) => t.isActive);
+                const activeTenants = response.data.filter(
+                    (t: { isActive: unknown }) => t.isActive
+                );
                 setTenants(activeTenants);
             } catch (error) {
                 console.error("Error fetching tenants:", error);

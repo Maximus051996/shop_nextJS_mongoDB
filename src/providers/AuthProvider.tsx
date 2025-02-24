@@ -5,8 +5,8 @@ import { useRouter, usePathname } from "next/navigation";
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
-    const pathname = usePathname();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const pathname = usePathname() || "/";
+    const [, setIsAuthenticated] = useState(false);
 
     // Function to decode and validate JWT
     const decodeToken = (token: string) => {

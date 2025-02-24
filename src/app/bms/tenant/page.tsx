@@ -24,7 +24,11 @@ const Tenant = () => {
             const response = await axiosInstance.get("/tenant");
             setTenants(response.data);
         } catch (err) {
-            setError("Error loading tenants. Please try again.");
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unknown error occurred.");
+            }
         } finally {
             setLoading(false);
         }
@@ -46,8 +50,11 @@ const Tenant = () => {
             toast.success(result.data.message);
             fetchTenants();
         } catch (err) {
-            toast.error("Failed to delete tenant!");
-            console.error("Error deleting tenant", err.message);
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unknown error occurred.");
+            }
         }
     };
 

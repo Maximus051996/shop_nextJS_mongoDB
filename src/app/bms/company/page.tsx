@@ -24,7 +24,11 @@ const Company = () => {
             const response = await axiosInstance.get("/company");
             setCompanies(response.data);
         } catch (err) {
-            setError("Error loading companies. Please try again.");
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unknown error occurred.");
+            }
         } finally {
             setLoading(false);
         }
@@ -46,8 +50,13 @@ const Company = () => {
             toast.success(result.data.message);
             fetchCompanies();
         } catch (err) {
-            toast.error("Failed to delete company!");
-            console.error("Error deleting company", err.message);
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unknown error occurred.");
+            }
+        } finally {
+            setLoading(false);
         }
     };
 

@@ -19,7 +19,8 @@ const SkeletonLoader = () => (
 
 const EditCompany = () => {
     const router = useRouter();
-    const { id } = useParams();
+    const params = useParams();
+    const id = params?.id as string | undefined;
     const [companyName, setCompanyName] = useState("");
     const [originalCompanyName, setOriginalCompanyName] = useState("");
     const [loading, setLoading] = useState(true);

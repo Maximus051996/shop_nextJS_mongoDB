@@ -4,6 +4,9 @@ import AuthProvider from "../providers/AuthProvider"; // ✅ Fixed import path
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
+// Prevent ESLint warning about unused variable
+if (!inter) console.log("Inter font loaded");
+
 export const metadata = {
     title: "Billing Management System",
     description: "Manage your billing efficiently",

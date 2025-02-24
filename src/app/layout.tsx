@@ -1,11 +1,5 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "../providers/AuthProvider"; // ✅ Fixed import path
-
-const inter = Inter({ subsets: ["latin"], display: "swap" });
-
-// Prevent ESLint warning about unused variable
-if (!inter) console.log("Inter font loaded");
 
 export const metadata = {
     title: "Billing Management System",
@@ -23,7 +17,7 @@ export default function RootLayout({
     return (
         <AuthProvider>
             <html lang="en">
-                <body className={inter.className}>
+                <body className="highlighter-context">
                     <main>{children}</main>
                 </body>
             </html>

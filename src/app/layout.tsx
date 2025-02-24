@@ -23,7 +23,7 @@ export default function RootLayout({
     return (
         <AuthProvider>
             <html lang="en">
-                <body className={`${inter.className} highlighter-context`}>
+                <body className={inter.className}>
                     <main>{children}</main>
                 </body>
             </html>

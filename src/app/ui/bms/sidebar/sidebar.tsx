@@ -139,13 +139,9 @@ const Header = () => {
                 <div className="p-4 border-t border-gray-700 mt-auto">
                     <button
                         onClick={handleLogout}
-                        className="flex items-center justify-center gap-2 w-full md:w-auto 
-                   bg-red-500 text-white px-4 py-3 md:px-6 md:py-3 
-                   rounded-lg font-semibold text-lg shadow-lg 
-                   hover:bg-red-600 active:scale-95 transition-all duration-300"
+                        className="flex items-center gap-2 bg-red-500/80 text-white w-full px-4 py-2 rounded-lg font-semibold hover:bg-red-600 transition duration-300 shadow-md"
                     >
-                        <LogOut size={20} />
-                        <span>Logout</span>
+                        <LogOut size={20} /> Logout
                     </button>
                 </div>
             </aside>

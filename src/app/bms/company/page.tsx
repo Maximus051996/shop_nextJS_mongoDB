@@ -1,20 +1,30 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useState, useEffect, ChangeEvent } from "react";
+import {
+    Pencil,
+    Trash2,
+    ChevronLeft,
+    ChevronRight,
+    Search,
+} from "lucide-react";
 import axiosInstance from "../../../../lib/axiosInstance";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import SkeletonLoader from "../../../components/skeletonLoader";
+import debounce from "lodash.debounce";
 
 const Company = () => {
     const router = useRouter();
     const [companies, setCompanies] = useState<
         { _id: string; companyName: string; isActive: boolean }[]
     >([]);
+    const [filteredCompanies, setFilteredCompanies] = useState(companies);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [, setSearchQuery] = useState("");
+
     const companiesPerPage = 5;
 
     // Fetch Companies from API
@@ -23,6 +33,7 @@ const Company = () => {
             setLoading(true);
             const response = await axiosInstance.get("/company");
             setCompanies(response.data);
+            setFilteredCompanies(response.data);
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -37,6 +48,22 @@ const Company = () => {
     useEffect(() => {
         fetchCompanies();
     }, []);
+
+    // Handle Search Input Change
+    const handleSearch = debounce((query: string) => {
+        setSearchQuery(query);
+        if (query.trim() === "") {
+            setFilteredCompanies(companies);
+        } else {
+            setFilteredCompanies(
+                companies.filter((company) =>
+                    company.companyName
+                        .toLowerCase()
+                        .includes(query.toLowerCase())
+                )
+            );
+        }
+    }, 300); // Debounce for performance optimization
 
     // Handle Edit
     const handleEdit = (id: string) => {
@@ -63,11 +90,11 @@ const Company = () => {
     // Pagination Logic
     const indexOfLastCompany = currentPage * companiesPerPage;
     const indexOfFirstCompany = indexOfLastCompany - companiesPerPage;
-    const currentCompanies = companies.slice(
+    const currentCompanies = filteredCompanies.slice(
         indexOfFirstCompany,
         indexOfLastCompany
     );
-    const totalPages = Math.ceil(companies.length / companiesPerPage);
+    const totalPages = Math.ceil(filteredCompanies.length / companiesPerPage);
 
     return (
         <div className="container mx-auto p-6">
@@ -77,14 +104,30 @@ const Company = () => {
                 Company Information
             </h1>
 
-            {/* ✅ Add Company Button */}
-            <div className="flex justify-end mb-4">
+            {/* ✅ Add Company Button + Search Bar */}
+            <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
                 <button
                     onClick={() => router.push("/bms/company/add")}
                     className="px-4 py-2 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition-all"
                 >
                     + Add Company
                 </button>
+
+                {/* Search Bar */}
+                <div className="relative w-full md:w-1/3">
+                    <Search
+                        className="absolute left-3 top-2.5 text-gray-500"
+                        size={18}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Search company..."
+                        className="w-full pl-10 pr-4 py-2 border rounded-lg shadow-md focus:ring focus:ring-blue-300 outline-none"
+                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                            handleSearch(e.target.value)
+                        }
+                    />
+                </div>
             </div>
 
             {error && <p className="text-center text-red-500">{error}</p>}
@@ -104,7 +147,7 @@ const Company = () => {
                             [...Array(5)].map((_, i) => (
                                 <SkeletonLoader key={i} />
                             ))
-                        ) : companies.length === 0 ? (
+                        ) : currentCompanies.length === 0 ? (
                             <tr>
                                 <td
                                     colSpan={2}
@@ -164,7 +207,7 @@ const Company = () => {
             </div>
 
             {/* Pagination Controls */}
-            {companies.length > companiesPerPage && (
+            {filteredCompanies.length > companiesPerPage && (
                 <div className="flex justify-center items-center gap-4 mt-6">
                     <button
                         onClick={() =>

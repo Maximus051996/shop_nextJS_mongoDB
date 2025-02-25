@@ -89,7 +89,11 @@ async function handleLogin(req, res) {
 
         const tenant = await Tenant.findById(user.tenantId).select("tenantName");
         const token = generateToken(user);
-
+        await User.findByIdAndUpdate(
+            user._id,
+            { lastLoggedIn: new Date() }, // Only update lastLoggedIn
+            { new: true, runValidators: true } // Return updated doc & apply validation
+        );
         return res.status(200).json({
             message: "Login successful.",
             tenantName: tenant ? tenant.tenantName : null,

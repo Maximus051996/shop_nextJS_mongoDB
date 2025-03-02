@@ -77,8 +77,7 @@ const POSBill = forwardRef<HTMLDivElement, POSBillProps>(
                         {productRows.map((row, index) => (
                             <tr key={index} className="border-b">
                                 <td className="py-2 px-2">
-                                    {row.quantity} {row.product} (
-                                    {row.entityTypeValue})
+                                    {row.product} ({row.entityTypeValue})
                                 </td>
                                 <td className="text-center py-2 px-2">
                                     {row.quantity}

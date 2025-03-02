@@ -13,7 +13,9 @@
     "bcryptjs": "^3.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "html2canvas": "^1.4.1",
     "jsonwebtoken": "^9.0.2",
+    "jspdf": "^3.0.0",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.475.0",
     "mongoose": "^8.10.1",
@@ -21,7 +23,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
-    "react-resizable": "^3.0.5"
+    "react-resizable": "^3.0.5",
+    "react-to-print": "^3.0.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -381,7 +381,7 @@ const GenerateBill = () => {
             )}
 
             {/* Hidden POS Bill for PDF Generation */}
-            <div className="hidden">
+            <div className="absolute -left-[9999px]">
                 <div ref={billRef}>
                     <POSBill
                         productRows={productRows}
